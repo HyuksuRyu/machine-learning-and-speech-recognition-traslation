@@ -4,6 +4,7 @@
 \usepackage{kotex}
 \usepackage[english]{babel}
 \usepackage{hyperref}
+\usepackage{subfiles}
 \hypersetup{pdfauthor={Name}}
 
 
@@ -16,191 +17,28 @@
 \tableofcontents
 
 \chapter{이 책의 목적과 사전지식}
-\section{이 책의 목적}
-\section{이 책의 구성}
-\section{이 책에서 사용하고 있는 수식의 표기}
-\section{확률론의 기초}
-\subsection{주변화}
-\subsection{조건부 확률}
-\subsection{독립성}
-\subsection{연속분포와 확률밀도함수}
+\subfile{chapters/chapter_01_introduction}
 
 \chapter{기계학습에서의 예측}
-\section{모델에 따른 예측}
-\section{식별함수의 구성}
-\section{확률모델의 학습}
-\section{최적화 알고리즘}
-\subsection{볼록함수의 최적화}
-\subsection{지수형 분포에서으 최대 우도 추정}
-\subsection{은닉변수모델과 EM알고리즘}
-\subsection{경사에 기반한 국소최적화}
-\section{사례: 신장과 체중에 따른 나이 추정}
-\subsection{생성모델 접근법}
-\subsection{식별모델 접근법}
-\subsection{식별함수법에 따른 접근법}
-
-\section{심층학습}
-\subsection{식별모델의 구성과 소프트맥스층}
-\subsection{확률 경사 하강법}
-
-\section{모델 선택과 과학습}
-\subsection{과학습}
-\subsection{교차 검증}
-\subsection{정칙화}
-\subsection{조기 종료(Early Stopping)}
-\section*{인용 및 참고문헌}
+\subfile{chapters/chapter_02_machine_learning_prediction}
 
 \chapter{유한상태변환기}
-\section{유한상태기계}
-\section{문법과 사전의 표현}
-\subsection{가중치의 도입}
-\subsection{변환기의 도입}
-\section{유한상태변환기의 수학적 정의}
-\subsection{반환}
-\subsection{상태집합 $Q$와 상태전이집합 $E$}
-\subsection{초기상태 $I$와 종료상태 $F$}
-\subsection{전이 경로와 가중치}
-\subsection{FST의 등이성}
-\subsection{대수확률반환과 FST의 확률 해석}
-\subsection{FST의 결합, 클리니 클로저, 합집합}
-\section{합성}
-\subsection{합성연산 알고리즘}
-\subsection{합성연산의 확률 해석}
-\subsection{알파벳 문자열의 FST 표현과 합성연산}
-\section{최단경로문제}
-\section{FST의 최적화}
-\subsection{트리밍}
-\subsection{$\epsilon$ 소거}
-\subsection{가중치와 라벨푸싱}
-\subsection{결정화}
-\subsection{최소화}
-\section{대수확률반환의 가중치를 갖는 비순회FST상의 기대치 계산}
-\subsection{비순회FST의 위상정렬}
-\subsection{기대치 계산}
-\section*{인용 및 참고문헌}
+\subfile{chapters/chapter_03_FST}
 
 \chapter{음성인식 시스템}
-\section{음성인식 시스템의 구성}
-\section{음성의 단위}
-\subsection{음소를 통한 음성인식의 생성모델}
-\subsection{발음모델}
-\label{subsec:pronunciation-model}
-
-\section{음성 분석}
-\subsection{음성신호 모델}
-\subsection{분산 푸리에 변환과 주파수 해석}
-\subsection{필터뱅크 처리}
-\subsection{캡스트럼 추출과 무상관화}
-\subsection{대수 에너지}
-\subsection{세그멘트 분석}
-
-\section{음성인식 시스템의 평가}
-\subsection{인식 성능 평가}
-\subsection{계산 효율 평가}
-
-\section*{인용 및 참고문헌}
+\subfile{chapters/chapter_04_ASR}
 
 \chapter{음향모델}
-\section{은닉 마르코프모델}
-\subsection{강우와 물소리 모델}
-\subsection{여러 개의 HMM 상태를 갖는 모델}
-\subsection{비의 추정으로부터 음성인식으로}
-
-\section{혼합 정규분포와 연속분포 HMM}
-\section{음소 문맥 의존 모델}
-\label{sec:context-dependant-model}
-\subsection{결정나무에 따른 음소문맥 클러스터링}
-\subsection{결정나무를 사용한 음향 모델의 FST 표현}
-\subsection{응집형 클러스터링에 따른 질문의 자동 생성}
-
-\section{신경망 음향모델}
-\subsection{재귀결합 신경망}
-\subsection{게이트유닛의 장단기 기억}
-
-\section{계열식별학습}
-\subsection{계열식별학습 기준}
-\subsection{인식가설을 사용한 최적화 알고리즘}
-
-\section{음향 모델 적응 기술}
-\subsection{성도 길이 정규화에 따른 적응}
-\subsection{화자 코드의 입력에 따른 적응}
-\subsection{재학습에 따른 적응}
-\section*{인용 참고 문헌}
+\subfile{chapters/chapter_05_AM}
 
 \chapter{언어모델}
-\section{언어모델이란}
-\section{1그램 언어모델과 Bag-of-words}
-\section{N그램 언어모델}
-\section{N그램 언어모델의 학습과 평활화}
-\subsection{N그램 언어모델의 최대우도추정}
-\subsection{가산 평활화}
-\subsection{선형보간 평활화}
-\subsection{Witten-Bell 평활화}
-\subsection{Good-Turing 추정법}
-\subsection{Katz 평활화}
-\subsection{절대할인법}
-\subsection{Kneser-Ney 평활화}
-
-\section{N그램 언어모델의 FST에 따른 표현}
-\label{sec:N-gram-FST}
-\section{최대 엔트로피 모델과 식별 언어모델}
-\subsection{최대 엔트로피 원리에 기반한 언어모델}
-\subsection{문장 레벨의 최대 엔트로피 모델}
-\subsection{음성인식을 위한 식별 언어모델}
-
-\section{신경망 언어모델}
-\subsection{신경망에 따른 후속 단어 예측}
-\subsection{단어의 분산표현}
-\subsection{신경망 언어모델에 따른 rescoring}
-
-\section*{인용 및 참고문헌}
+\subfile{chapters/chapter_06_LM}
 
 \chapter{대어휘 연속 음성인식}
-
-\noindent
-본 챕터에서는 지금까지의 챕터에서 설명한 각종 기법을 취합하여 대어휘 연속 음성 인식 (large vocabulary continuous speech recognition; LVCSR) 엔진을 구성하는 방법에 대해 설명한다. 
-
-\section{FST의 합성과 확률모델}
-지금까지 도입했던 음성인인식의 요소를 나타내는 FST를 합성하고, 합성한 FST의 최단 경로 문제의 풀이로서 음성인식결과를 얻는 방법을 고찰한다. 음성인식의 통계모델을 표현하는 FST는 일반적으로는 아래의 4 종류가 있다. 
-
-\begin{itemize}
-    \item \textit{\textbf{G}}: 단어열 Acceptor (\hyperref[sec:N-gram-FST]{6.5})
-    \item L:문맥에 의존하지 않는 음소열로부터 단어열 변환 (4.2.2)
-    \item C:문맥에 의존하는 음소열로부터 문맥에 의존하지 않는 음소열로 변환 (\hyperref[sec:context-dependant-model]{5.3})
-    \item H:HMM state 시퀀스로부터 문맥에 의존하는 음소열로 변환 (5.3)
-\end{itemize}
-
-\subsection{디코딩 네트워크의 구성과 탐색오류}
-\subsection{disambiguation 심볼}
-
-\section{대어휘 연속 음성인식의 탐색문제}
-\section{대규모 FST 합성 기술}
-\subsection{온 더 플라이 합성}
-\subsection{디스크 기반 인식 시스템}
-
-\section{N-Best 리스트 및 lattice 생성}
-\subsection{lattice 생성}
-\subsection{lattice로부터 N-Best 리스트 생성}
-
-\section*{인용 및 참고문헌}
+\subfile{chapters/chapter_07_LVCSR}
 
 \chapter{심층학습의 발전}
-\section{여러가지 신경망 요소}
-\subsection{포화되지 않는 활성화 함수}
-\subsection{Dropout}
-\subsection{배치 정규화}
-\subsection{합성곱/풀링층}
-
-\section{신경망 고속화}
-\subsection{가중치의 양자화}
-\subsection{특이값 분해에 따른 가중치 행렬 압축}
-\subsection{knowledge distillation에 따른 모델 변환}
-
-\section{End-to-end 음성인식}
-\subsection{CTC}
-\subsection{Encoder-Decoder End-to-end 음성인식}
-
-\section*{인용 및 참고문헌}
+\subfile{chapters/chapter_08_NN}
 
 
 \end{document}
