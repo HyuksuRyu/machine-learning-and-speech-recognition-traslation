@@ -18,12 +18,19 @@
 
 \begin{equation}\label{eq:7-1}
     \begin{split}
-    Q[\bm{E}] &= \{0,\ldots,T\}, \qquad I[\bm{E}] = \{(0,\overline{1})\}, \qquad F[\bm{E}] = \{(T,\overline{1})\}, \\
+    Q[\bm{E}] &= \{0,\ldots,T\}, \qquad I[\bm{E}] = \{(0,\bar{1})\}, \qquad F[\bm{E}] = \{(T,\bar{1})\}, \\
     E[\bm{E}] &= \{(t-1, t, \sigma, \sigma, -\log p(\mathbf{x_t} | s_t = \sigma)): t \in {1, \ldots, T}, \sigma \in \Sigma[\bm{H}] \}
     \end{split}
 \end{equation}
 
 여기에서 \textit{T}는 관측 벡터열의 길이를 의미한다. 
+
+음성인식 전체의 변환처리, 이른바 입력 프레임 시퀀스에서 단어열로의 변환은, 이 모든 FST를 합성한 $\bm{E} \circ \bm{H} \circ \bm{C} \circ \bm{L} \circ \bm{G}$로 나타낼 수 있다.
+또한 그 FST의 변환 결과로써 가장 가중치가 작아지는 가설은 최단경로문제를 푸는 것으로써 근사적으로 구할 수 있다.
+\hyperref[sec:HMM]{5.1}에서 설명한 바와 같이, 이를 Viterbi 디코딩이라 한다. 
+그러나 많은 경우에, 이 FST는 거대하여, Viterbi 디코딩과 같은 근사적 해법으로도 풀기가 어렵다. 
+대어휘 연속 음성인식기술은, 이런 거대한 FST 위에서, Viterbi 디코딩을 가능케하는 기술이라 할 수 있다. 
+
 
 \subsection{디코딩 네트워크의 구성과 탐색오류}
 \subsection{disambiguation 심볼}
