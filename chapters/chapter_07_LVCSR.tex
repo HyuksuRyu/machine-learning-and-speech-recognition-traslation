@@ -1,4 +1,5 @@
 \documentclass[../main.tex]{subfiles}
+\usepackage{amsmath, bm}
 \begin{document}
 
 \noindent
@@ -8,11 +9,21 @@
 지금까지 도입했던 음성인인식의 요소를 나타내는 FST를 합성하고, 합성한 FST의 최단 경로 문제의 풀이로서 음성인식결과를 얻는 방법을 고찰한다. 음성인식의 통계모델을 표현하는 FST는 일반적으로는 아래의 4 종류가 있다. 
 
 \begin{itemize}
-    \item \textit{\textbf{G}}: 단어열 Acceptor (\hyperref[sec:N-gram-FST]{6.5})
-    \item L:문맥에 의존하지 않는 음소열로부터 단어열 변환 (\hyperref[subsec:pronunciation-model]{4.2.2})
-    \item C:문맥에 의존하는 음소열로부터 문맥에 의존하지 않는 음소열로 변환 (\hyperref[sec:context-dependant-model]{5.3})
-    \item H:HMM state 시퀀스로부터 문맥에 의존하는 음소열로 변환 (\hyperref[sec:context-dependant-model]{5.3})
+    \item \textbf{\textit{G}}: 단어열 Acceptor (\hyperref[sec:N-gram-FST]{6.5})
+    \item \textbf{\textit{L}}: 문맥에 의존하지 않는 음소열로부터 단어열 변환 (\hyperref[subsec:pronunciation-model]{4.2.2})
+    \item \textbf{\textit{C}}: 문맥에 의존하는 음소열로부터 문맥에 의존하지 않는 음소열로 변환 (\hyperref[sec:context-dependant-model]{5.3})
+    \item \textbf{\textit{H}}: HMM state 시퀀스로부터 문맥에 의존하는 음소열로 변환 (\hyperref[sec:context-dependant-model]{5.3})
 \end{itemize}
+여기에 덧붙여서, 이하의 식에서 보여지고 있는 입력 (관측 벡터열)과 HMM 상태변수의 관계를 나타내는 FST \textbf{\textit{E}}를 가상으로 도입함으로써, 인식할 때의 처리를 모두 FST 형식으로 기술할 수 있게 된다. 
+
+\begin{equation}\label{eq:7-1}
+    \begin{split}
+    Q[\bm{E}] &= \{0,\ldots,T\}, \qquad I[\bm{E}] = \{(0,\overline{1})\}, \qquad F[\bm{E}] = \{(T,\overline{1})\}, \\
+    E[\bm{E}] &= \{(t-1, t, \sigma, \sigma, -\log p(\mathbf{x_t} | s_t = \sigma)): t \in {1, \ldots, T}, \sigma \in \Sigma[\bm{H}] \}
+    \end{split}
+\end{equation}
+
+여기에서 \textit{T}는 관측 벡터열의 길이를 의미한다. 
 
 \subsection{디코딩 네트워크의 구성과 탐색오류}
 \subsection{disambiguation 심볼}
