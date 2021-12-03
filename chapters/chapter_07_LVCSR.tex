@@ -133,6 +133,14 @@ disambiguation 심볼은 인식할 때에는 무시될 필요가 있으므로 �
     \hat{\bm{\pi}} \stackrel{\text{def}}{=} \argmin_{\bm{\pi} \in \prod [ \bm{E} \circ \bm{D}] } \bar{\omega}(\bm{\pi})
 \end{equation}
 
+여기에서 $\bar{\omega} ( \bm{\pi})$는 경로 $\bm{\pi}$에 대한 가중치이다. 
+\hyperref[sec:shortest-path]{3.5}절에서 최단경로문제에 대해 설명한 바와 같이, FST의 가중치는 Tropical Semiring이 된다. 
+
+격자 $\bm{E} \circ \bm{D}$가 거대하기 때문에, 이 최단경로문제의 엄밀하게 정확한 답은 얻기란 현실적으로 어렵다. 
+최단경로를 근사적으로 구하기 위해 시간 동기 빔 탐색 (time-synchronous beam search)라고 불리는 방법을 사용할 수 있다. 
+빔 탐색은 \textbf{폭 우선 탐색} (breadth-first search)의 폭을 제한하여 탐색을 빠르게 하는 근사법이다. 
+또한 ”시간 동기”라는 말은 탐색 가설이 각 입력 레이블 (각각 하나의 시간에 대응)로 그룹화하여, 그에 대해 폭을 제한하는 것과 같은 Pruning을 수행하는 것을 나타낸다. 
+
 \section{대규모 FST 합성 기술}
 \subsection{온 더 플라이 합성}
 \subsection{디스크 기반 인식 시스템}
