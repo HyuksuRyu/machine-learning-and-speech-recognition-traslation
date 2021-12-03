@@ -93,6 +93,12 @@ disambiguation 심볼은 \hyperref[fig:7_2]{그림}에서는 \texttt{\#1}과 \te
 \hyperref[fig:7_2]{그림}에서의 렉시콘의 경우, \texttt{/a o i/}에 대응하는 단어가 가장 많으며 그 수는 3개이기 때문에 \texttt{\#1}부터 \texttt{\#3}까지 disambiguation 심볼로써 추가할 수 있다. 
 이런 심볼을 도입함으로써 렉시콘 FST를 결정화할 수 있다. 
 
+$\bm{H}$나 $\bm{C}$와 같은 다른 FST에도 disambiguation 심볼을 적용해 볼 수 있다면 렉시콘 FST를 합성한 FST (예를 들어 $\bm{C} \circ \bm{L}$ 이나 $\bm{H} \circ (\bm{C} \circ \bm{L})$ 등)도 결정화 할 수 있게 되고, 합성 후의 표현을 최적화도 할 수 있게 된다. 
+disambiguation 심볼을 $\bm{H}$나 $\bm{C}$에 적용하는 가장 단순한 방법으로써, $\bm{H}$나 $\bm{C}$의 모든 상태에 disambiguation 심볼을 입출력하는 상태 전이를 추가하는 방법을 소개한다. 
+disambiguation심볼의 집합을 $\Gamma$로 하고, $\bm{H}$와 $\bm{C}$의 상태 전이 집합을 $E' = E \cup \{ (q, d, d, q, \bar{1}) : q \in Q, d \in \Gamma \}$와 같이 확장하여, $\bm{H'}$과 $\bm{C'}$을 얻을 수 있다. 
+이를 이용한 합성 FST, 즉, $\bm{H'} \circ (\bm{C'} \circ \bm{L})$과 $\bm{C'} \circ \bm{L}$은 $L$의 입력 심볼로써 추가된 disambiguation 심볼을 입력 알파벳의 일부로 갖는 FST가 된다. 
+disambiguation 심볼은 인식할 때에는 무시될 필요가 있으므로 최적화 이후에는 이를 $\epsilon$ 전이로 변환하여 필요하다면 이어서 $\epsilon$ 제거를 실행한다.
+
 
 
 \section{대어휘 연속 음성인식의 탐색문제}
