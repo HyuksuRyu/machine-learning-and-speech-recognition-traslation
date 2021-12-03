@@ -1,6 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 \usepackage{amsmath, bm}
 \usepackage{graphicx}
+
 \begin{document}
 
 \noindent
@@ -17,7 +18,7 @@
 \end{itemize}
 여기에 덧붙여서, 이하의 식에서 보여지고 있는 입력 (관측 벡터열)과 HMM 상태변수의 관계를 나타내는 FST \textbf{\textit{E}}를 가상으로 도입함으로써, 인식할 때의 처리를 모두 FST 형식으로 기술할 수 있게 된다. 
 
-\begin{equation}\label{eq:7-1}
+\begin{equation}\label{eq:7_1}
     \begin{split}
     Q[\bm{E}] &= \{0,\ldots,T\}, \qquad I[\bm{E}] = \{(0,\bar{1})\}, \qquad F[\bm{E}] = \{(T,\bar{1})\}, \\
     E[\bm{E}] &= \{(t-1, t, \sigma, \sigma, -\log p(\mathbf{x_t} | s_t = \sigma)): t \in {1, \ldots, T}, \sigma \in \Sigma[\bm{H}] \}
@@ -36,7 +37,7 @@
 
 입력에 의존하는 $\bm{E}$를 제외한 나머지 모두를 합성한 FST가 음성인식에서 사용되는데, 이 FST를 디코딩 네트워크라고 부르고, $\bm{D}$로 나타낸다. 
 
-\begin{equation}\label{eq:7-2}
+\begin{equation}\label{eq:7_2}
     \bm{D} = \bm{H} \circ \bm{C} \circ \bm{L} \circ \bm{G}
 \end{equation}
 
@@ -68,7 +69,7 @@
 대어휘 연속 음성인식에 있어서의 FST의 최적화에서는 결정화 (와 그 전처리로써 필요한 $\epsilon$제거) 및 최소화가 이루어진다. 
 FST의 최적화 (Opt라고 한다)는 예를 들어 아래와 같은 것으로, 3개의 FST 변환 함수에 의해 나타낼 수 있다. 
 
-\begin{equation}\label{eq:7-3}
+\begin{equation}\label{eq:7_3}
     \text{Opt}(\bm{X}) \stackrel{\text{def}}{=} \text{Min}(\text{Det}(\text{RmEps}(\bm{X})))
 \end{equation}
 
@@ -101,7 +102,7 @@ disambiguation 심볼은 인식할 때에는 무시될 필요가 있으므로 �
 
 아래는 디코딩 네트워크의 구성한 한 예를 최적화 연산을 포함하여 기술하였다. 
 
-\begin{equation}\label{eq:7-4}
+\begin{equation}\label{eq:7_4}
     \bm{D} = \text{RmDisamb} (\text{Opt} (\bm{H'} \circ \text{Opt} ( \bm{C'} \circ \text{Opt} (\bm{L'}) ) ) ) \circ \bm{G}
 \end{equation}
 
@@ -113,6 +114,20 @@ disambiguation 심볼은 인식할 때에는 무시될 필요가 있으므로 �
 이 뿐만 아니라 조합 방법은 여러가지를 생각해 볼 수 있고, 탐색 알고리즘의 성질과 실행하는 계산 특성, 각 모델의 특징을 고려하여 결정하여야 한다. 
 
 \section{대어휘 연속 음성인식의 탐색문제}
+
+입력 $\mathbf{X}$를 \hyperref[eq:7_1]{식 7.1}과 같이 FST $\bm{E}$로써 적용할 경우, 음성인식은 아래와 같이 나타낼 수 있다. 
+
+\begin{equation}\label{eq:7_5}
+    \hat{\bm{y}} = \argmax_{\bm{y}} p( \mathbf{X} | \bm{y} ) p ( \bm{y} ) = \argmin_{\bm{y}} [\![\bm{E} \circ \bm{D} \circ \bm{y}]\!]
+\end{equation}
+
+이와 같은 최적화는 어렵기 때문에 실제로 사용할 때는 \hyperref[sec:HMM]{5.1}에서 언급한 Viterbi 디코딩을 응용하게 되는데, FST의 최단경로에 대응하는 출력 레이블을 이용하여 아래와 같은 최적 출력을 근사한다. 
+
+\begin{equation}\label{eq:7_6}
+    \hat{\bm{y}} \simeq \bm{\delta}(\hat{\bm{\pi}})
+\end{equation}
+
+여기에서 $\bm{\delta}$는 경로로부터 출력 알파벳 시퀀스를 꺼내는 함수를 의미하고, 최적 경로 $\hat{\bm{\pi}}$는 격자 상의 최단 경로로써 아래와 같이 정의된다. 
 
 \section{대규모 FST 합성 기술}
 \subsection{온 더 플라이 합성}
