@@ -82,9 +82,15 @@ FST의 최적화 (Opt라고 한다)는 예를 들어 아래와 같은 것으로,
 그러나 결정화가 가능하다는 것은 함수형 FST, 이른바 어떤 입력 시퀀스에 대해 단 하나의 출력 시퀀스만 가능한 FST로 한정되는데, 예를 들어 $\bm{L}$은 동음이의어를 갖는 경우, 이 전제를 만족할 수 없게 된다. 
 이 때 도입할 수 있는 것이 disambiguation 심볼이다. 
 
-그림 7.2에서는 disambiguation 심볼을 도입한 렉시콘의 예를 보여주고 있다. 
-disambiguation 심볼은 그림에서는 \texttt{\#1}과 \texttt{\#2}가 있는데, 이는 렉시콘 내의 동음이의어를 구별하기 위해 필요한 만큼 준비할 수 있다. 
-그림에서의 렉시콘의 경우, \texttt{/a o i/}에 대응하는 단어가 가장 많으며 그 수는 3개이기 때문에 \texttt{\#1}부터 \texttt{\#3}까지 disambiguation 심볼로써 추가할 수 있다. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=5cm]{../figures/fig7_2_orig.png}\label{fig:7_2}
+    \caption{disambiguation 심볼을 적용한 렉시콘}
+\end{figure}
+
+\hyperref[fig:7_2]{그림 7.2}에서는 disambiguation 심볼을 도입한 렉시콘의 예를 보여주고 있다. 
+disambiguation 심볼은 \hyperref[fig:7_2]{그림}에서는 \texttt{\#1}과 \texttt{\#2}가 있는데, 이는 렉시콘 내의 동음이의어를 구별하기 위해 필요한 만큼 준비할 수 있다. 
+\hyperref[fig:7_2]{그림}에서의 렉시콘의 경우, \texttt{/a o i/}에 대응하는 단어가 가장 많으며 그 수는 3개이기 때문에 \texttt{\#1}부터 \texttt{\#3}까지 disambiguation 심볼로써 추가할 수 있다. 
 이런 심볼을 도입함으로써 렉시콘 FST를 결정화할 수 있다. 
 
 
