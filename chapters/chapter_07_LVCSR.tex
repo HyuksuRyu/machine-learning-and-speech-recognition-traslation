@@ -36,7 +36,7 @@
 
 입력에 의존하는 $\bm{E}$를 제외한 나머지 모두를 합성한 FST가 음성인식에서 사용되는데, 이 FST를 디코딩 네트워크라고 부르고, $\bm{D}$로 나타낸다. 
 
-\begin{equation}
+\begin{equation}\label{eq:7-2}
     \bm{D} = \bm{H} \circ \bm{C} \circ \bm{L} \circ \bm{G}
 \end{equation}
 
@@ -68,7 +68,7 @@
 대어휘 연속 음성인식에 있어서의 FST의 최적화에서는 결정화 (와 그 전처리로써 필요한 $\epsilon$제거) 및 최소화가 이루어진다. 
 FST의 최적화 (Opt라고 한다)는 예를 들어 아래와 같은 것으로, 3개의 FST 변환 함수에 의해 나타낼 수 있다. 
 
-\begin{equation}
+\begin{equation}\label{eq:7-3}
     \text{Opt}(\bm{X}) \stackrel{\text{def}}{=} \text{Min}(\text{Det}(\text{RmEps}(\bm{X})))
 \end{equation}
 
@@ -99,7 +99,18 @@ disambiguation심볼의 집합을 $\Gamma$로 하고, $\bm{H}$와 $\bm{C}$의 �
 이를 이용한 합성 FST, 즉, $\bm{H'} \circ (\bm{C'} \circ \bm{L})$과 $\bm{C'} \circ \bm{L}$은 $L$의 입력 심볼로써 추가된 disambiguation 심볼을 입력 알파벳의 일부로 갖는 FST가 된다. 
 disambiguation 심볼은 인식할 때에는 무시될 필요가 있으므로 최적화 이후에는 이를 $\epsilon$ 전이로 변환하여 필요하다면 이어서 $\epsilon$ 제거를 실행한다.
 
+아래는 디코딩 네트워크의 구성한 한 예를 최적화 연산을 포함하여 기술하였다. 
 
+\begin{equation}\label{eq:7-4}
+    \bm{D} = \text{RmDisamb} (\text{Opt} (\bm{H'} \circ \text{Opt} ( \bm{C'} \circ \text{Opt} (\bm{L'}) ) ) ) \circ \bm{G}
+\end{equation}
+
+여기에서 $\bm{H'}$, $\bm{C'}$, $\bm{L'}$은 disambiguation 심볼이 추가된 $\bm{H}$, $\bm{C}$, $\bm{L}$이며 RmDisamb는 disambiguation 심볼을 제거한 연산을 의미한다. 
+
+이런 구성법은 다음의 순서로 진행된다. 
+우선 렉시콘 FST $\bm{L'}$을 단독으로 최적화시킨 후, 음소 문맥 FST $\bm{C'}$을 합성하여 다시 한번 최적화한다. 
+그 후에 HMM 상태전이 FST $\bm{H'}$을 합성하여 최적화하고, 다음으로 disambiguation 심볼을 제거한 언어모델 FST $\bm{G}$와 합성한다. 
+이 뿐만 아니라 조합 방법은 여러가지를 생각해 볼 수 있고, 탐색 알고리즘의 성질과 실행하는 계산 특성, 각 모델의 특징을 고려하여 결정하여야 한다. 
 
 \section{대어휘 연속 음성인식의 탐색문제}
 
