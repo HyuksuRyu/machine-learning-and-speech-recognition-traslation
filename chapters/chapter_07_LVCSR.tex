@@ -159,8 +159,12 @@ disambiguation 심볼은 인식할 때에는 무시될 필요가 있으므로 �
 백 포인터 $b$는 시간 $t-1$에 디코딩 네트워크의 어떤 state에 이르고 있는가를 가설로써 배열 $H[t-1]$상에서 그 위치를 이용하여 자연수로 나타낸다. 
 
 가설 배열 $H[t-1]$의 각 요소 $H[t-1][r] = (q, \omega', \bm{y}, b)$에 대해서 그 지점에서부터 오는 state 변이 $e \in E^{\mathtt{succ}}(q)$를 열거하고 그것을 이용하여 $q'[e]$로 전이하는 경우를 고려한다. 
+$\delta[e] \neq \epsilon$이 되는 state 전이를 하는 경우, 시간 $t$의 음향 특징 벡터 $\bm{x}_t$의 확률이 HMM state $\delta[e]$에 대응하는 출력분포로 평가하고, 그 음의 대수확률을 가중치로써 상태 $(t, q'[e])$에 이른다. 
+따라서 가설 배열 $H[t]$에 아래와 같은 요소를 덧붙일 수 있다. 
 
-
+\begin{equation}
+    (q'[e], \omega' + \omega[e] - \log p(\bm{x}_t | s_t = \sigma[e]), \{\delta[e]\}, r)
+\end{equation}
 
 
 \section{대규모 FST 합성 기술}
