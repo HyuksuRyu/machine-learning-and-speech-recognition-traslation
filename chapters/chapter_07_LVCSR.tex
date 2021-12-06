@@ -166,6 +166,17 @@ $\delta[e] \neq \epsilon$이 되는 state 전이를 하는 경우, 시간 $t$의
     (q'[e], \omega' + \omega[e] - \log p(\bm{x}_t | s_t = \sigma[e]), \{\delta[e]\}, r)
 \end{equation}
 
+$\sigma[e] = \epsilon$의 경우에는 입력을 처리하지 않고 디코딩 네트워크 상에서의 state를 변화시킬 필요가 있다. 
+격자상에서는 $(t-1, q)$로부터 $(t-1, q'[e])$로의 state 전이로 대응한다. 
+이를 실현하는 간단한 방법은 $\epsilon$이 나타날 때 마다 현재 생각하고 있는 state 변이 집합을 확장하는 방법이다. 
+즉, state $q$로부터 갈 수 있는 state 전이 집합을 $E \leftarrow ^{texttt{succ}}(q)$ 로 초기화하고 
+$\sigma[e] = \epsilon$ 이 되는 state 전이 $\epsilon$을 발견할 때마다, 
+$E \leftarrow E \cup \{ ( q, \sigma, (\delta, \delta'), q'', w[e] + w'): (q', \sigma, \delta', q'', w') \in E^{\texttt{succ}}(q'[e])\}$ 과 같이 state 순차적으로 확장해 나감으로써, 
+$\epsilon$ 제거와 유사한 처리를 빔 탐색 알고리즘 내에 집어 넣을 수 있다
+\footnote{$(\delta, \delta')$은 $\delta$와 $\delta'$의 연결을 나타낸다. 
+입력의 $\epsilon$ 전이에 의해 여러 개의 출력 알파벳이 출력되는 경우에 대응하기 위해, state 전이가 여러 출력 레이블을 갖게 되도록 확장되고 있는 것에 주의할 필요가 있다. 또한 이런 처리는 디코딩 네트워크상에서 입력이 $\epsilon$으로 되는 state 전이의 사이클이 있었을 때에 무한 루프가 발생하고 만다. 디코딩 네트워크의 구축법에 의해 이런 문제가 일어날 수 있으므로 주의를 요한다}.
+
+
 
 \section{대규모 FST 합성 기술}
 \subsection{온 더 플라이 합성}
