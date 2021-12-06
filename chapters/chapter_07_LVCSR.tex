@@ -1,5 +1,5 @@
 \documentclass[../main.tex]{subfiles}
-\usepackage{amsmath, bm}
+\usepackage{amsmath, bm, amssymb}
 \usepackage{graphicx}
 
 \begin{document}
@@ -141,6 +141,12 @@ disambiguation 심볼은 인식할 때에는 무시될 필요가 있으므로 �
 빔 탐색은 \textbf{폭 우선 탐색} (breadth-first search)의 폭을 제한하여 탐색을 빠르게 하는 근사법이다. 
 또한 ”시간 동기”라는 말은 탐색 가설이 각 입력 레이블 (각각 하나의 시간에 대응)로 그룹화하여, 그에 대해 폭을 제한하는 것과 같은 가지치기 (Pruning)을 수행하는 것을 나타낸다. 
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=8cm]{figures/fig7_3_orig}
+    \caption{시간 동기 빔 탐색의 데이터 구조}
+\end{figure}
+
 그림 7.3에서는 Beam 탐색에 이용되는 데이터 구조의 한 예를 보여주고 있다\footnote{음성인식의 탐색 알고리즘은 음성인식 이용시의 계산 비용에 가장 영향을 주는 부분이어서, 계산 고속화와 근사 계산이 많이 이용되고 있다. 또한 음성인식의 결과를 출력하는 부분이기 때문에, 그 응용에 있어서 요구되는 기능에 따라 확장되는 경우도 많다. 본 절에서 설명하는 것은 가장 간단한 구현 방법이고, 현실 시스템에 있어서 복잡한 디코더의 구현과는 괴리가 있다는 점에 주의해 주길 바란다.}. 
 
 격자 FST의 state 변수는 $ Q [ \bm{E} ] \times Q [ \bm{D} ] = \{ 0, \ldots , T\} \times Q [ \bm{D} ] $ 이고, 각 state 는 시간 \textit{t}와 디코딩 네트워크 상의 state 변수 $ q \in Q [ \bm{D} ] $의 쌍 $(t,q) \in Q [ \bm{E} \circ \bm{D} ] $으로 표현된다. 
@@ -148,6 +154,13 @@ disambiguation 심볼은 인식할 때에는 무시될 필요가 있으므로 �
 본래의 최단경로의 탐색문제에서는 초기 state 로부터 특정 state $(t,q)$에 이르는 모든 경로의 가중치의 $\oplus$ 연산을 통해 전방향 스코어를 계산 (\hyperref[sec:shortest-path]{3.5절} 참조) 하지만, 
 큰 규모에서는 이러한 계산이 불가능하기 때문에 근사치로써 그룹마다 거기에 이르기까지의 가중치가 가장 작은 몇몇 state만을 이용하여 다른 상태까지 가는 경로를 무시 (가지치기) 하여 전방향 스코어를 계산해가는 방법을 취한다. 
 이를 빔 탐색이라고 부른다. 
+
+시간 $t$ 마다 디코딩 네트워의 state $q$, 전방향 스코어 $\omega'$, 출력 심볼 시퀀스 $\bm{y}$와 백 포인터 $b$의 4개 원소를 갖는 $(q, \omega', \bm{y}, b) \in (Q[\bm{D}] \times \mathbb{K} \times \Delta^{*} \times \mathbb{N} )$의 배열 $H[t]$가 $\omega'$가 작은 순으로 정렬되어 있다고 하자. 
+백 포인터 $b$는 시간 $t-1$에 디코딩 네트워크의 어떤 state에 이르고 있는가를 가설로써 배열 $H[t-1]$상에서 그 위치를 이용하여 자연수로 나타낸다. 
+
+가설 배열 $H[t-1]$의 각 요소 $H[t-1][r] = (q, \omega', \bm{y}, b)$에 대해서 그 지점에서부터 오는 state 변이 $e \in E^{\mathtt{succ}}(q)$를 열거하고 그것을 이용하여 $q'[e]$로 전이하는 경우를 고려한다. 
+
+
 
 
 \section{대규모 FST 합성 기술}
