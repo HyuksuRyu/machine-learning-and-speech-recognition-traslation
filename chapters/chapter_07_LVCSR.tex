@@ -186,8 +186,45 @@ $\epsilon$ 제거와 유사한 처리를 빔 탐색 알고리즘 내에 집어 �
 이 때의 $B>0$를 빔 폭이라고 하며, 디코딩 속도를 제어하기 위해 파라미터로써 조정한다. 
 가설 수에 따른 가지치기는 \textbf{히스토그램 가지치기} (histogram pruning)이라고도 부르며, 가설을 가중치로 정렬한 후, $W$개째 이후의 요소를 소거하는 방식을 말한다.  
 
+% algorithm 7.1
 
+\begin{algorithm}[hbt!]
+    \SetKwComment{Comment}{// }{}
+    \SetKwInOut{Input}{입력}
+    \SetKwInOut{Output}{출력}
+    \SetKwFunction{PushBack}{\textsc{PushBack}}
+    \SetKwFunction{Len}{\textsc{Len}}
+    \SetKwFunction{Sort}{\textsc{Sort}}
+    \SetKwData{null}{null}
 
+    \caption{시각 동기 빔 탐색 (가설 전개)}\label{alg:7-1}
+    \DontPrintSemicolon
+    \Input{디코딩 네트워크 $\bm{D}$}
+    \Output{가설 배열 $H$}
+    \Comment{초기화}
+    \ForEach{$(q,\omega) \in I[\bm{D}]$}{$\PushBack(H[0], (q, \omega, \{\}, \null)$)}
+
+    \Comment{프레임마다 처리}
+    \ForEach{$r \in \{ 1, \ldots, \Len (H[t-1]) \}$}{
+        $(q, \omega, \sigma, r') = H[t-1][r]$ \\
+        $E \gets E^{succ}(q)$ \\
+    
+        \ForEach{$e \in E$}{
+            \Comment{$E$는 루프 내에서 확장될 수 있으므로 주의.또한 $\bm{D}$ 내에 $\epsilon$ 천이만 존재하는 경우, 해당 루프는 멈출 가능성이 있음에 유의}
+            \eIf{$\delta[e]=\epsilon$}{
+                $E \gets E \cup \{(q, \delta[e'], (\sigma[e], \sigma[e']), q'[e'], w[e] + w[e']): e' \in E^{succ}(q')\}$
+            }{
+                $w' \gets w + w[e] - \log p(\bm{x}_t | s_t = \delta[e])$ \\
+                $\PushBack (H[t], (q'[e], w', \delta[e], r))$
+            }}
+    }
+    $\Sort (H[t])$ 
+
+    \Comment{재통합}
+
+    $V \gets \emptyset$
+
+\end{algorithm}
 
 \section{대규모 FST 합성 기술}
 \subsection{온 더 플라이 합성}
