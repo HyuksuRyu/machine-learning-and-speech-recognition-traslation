@@ -202,27 +202,67 @@ $\epsilon$ 제거와 유사한 처리를 빔 탐색 알고리즘 내에 집어 �
     \Input{디코딩 네트워크 $\bm{D}$}
     \Output{가설 배열 $H$}
     \Comment{초기화}
-    \ForEach{$(q,\omega) \in I[\bm{D}]$}{$\PushBack(H[0], (q, \omega, \{\}, \null)$)}
+    \ForEach{
+        $(q, w) \in I[\bm{D}]$
+        }{
+            $\PushBack(H[0], (q, \omega, \{\}, \null)$)
+            }
 
     \Comment{프레임마다 처리}
-    \ForEach{$r \in \{ 1, \ldots, \Len (H[t-1]) \}$}{
-        $(q, \omega, \sigma, r') = H[t-1][r]$ \\
-        $E \gets E^{succ}(q)$ \\
-    
-        \ForEach{$e \in E$}{
-            \Comment{$E$는 루프 내에서 확장될 수 있으므로 주의.또한 $\bm{D}$ 내에 $\epsilon$ 천이만 존재하는 경우, 해당 루프는 멈출 가능성이 있음에 유의}
-            \eIf{$\delta[e]=\epsilon$}{
-                $E \gets E \cup \{(q, \delta[e'], (\sigma[e], \sigma[e']), q'[e'], w[e] + w[e']): e' \in E^{succ}(q')\}$
+    \ForEach{$t \in \{1, \ldots, T\}$}{
+        \ForEach{$r \in \{ 1, \ldots, \Len (H[t-1]) \}$}{
+            $(q, w, \sigma, r') = H[t-1][r]$ \\
+            $E \gets E^{succ}(q)$ \\
+        
+            \ForEach{$e \in E$}{
+                \Comment{$E$는 루프 내에서 확장될 수 있으므로 주의.또한 $\bm{D}$ 내에 $\epsilon$ 천이만 존재하는 경우, 해당 루프는 멈출 가능성이 있음에 유의}
+                \eIf{$\delta[e]=\epsilon$}{
+                    $E \gets E \cup \{(q, \delta[e'], (\sigma[e], \sigma[e']), q'[e'], w[e] + w[e']): e' \in E^{succ}(q')\}$
+                }{
+                    $w' \gets w + w[e] - \log p(\bm{x}_t | s_t = \delta[e])$ \\
+                    $\PushBack (H[t], (q'[e], w', \delta[e], r))$
+                }}
+        }
+        $\Sort (H[t])$ 
+
+        \Comment{재통합} 
+
+        $V \gets \varnothing$ 
+
+        \ForEach{
+            $r \in \{1, \ldots, \Len(H[t])\}$
+        }{
+            $(q, w, \delta, r') = H[t-1][r]$\\
+            \eIf{
+                $q \in V$
             }{
-                $w' \gets w + w[e] - \log p(\bm{x}_t | s_t = \delta[e])$ \\
-                $\PushBack (H[t], (q'[e], w', \delta[e], r))$
-            }}
+                $H[t-1][r] \gets (q, \infty, \delta, r')$
+                \Comment{가지치기로 지우기 위해 가중치를 최대로 함.}
+            }{
+                $V \gets V \cup \{q\}$
+            }
+        }
+
+        $\Sort(H[t])$
+
+        \Comment{가지치기}
+
+        $(\_, \hat{w}, \_, \_) \gets H[t][1], \hat{r} \gets W$
+
+        \ForEach{
+            $r \in \{1, \ldots, \Len (H[t])\}$
+        }{
+            $(q, w, \delta, r') = H[t][r]$\\
+            \If{
+                $w + B \ge \hat{w}$
+            }{
+                $\hat{r} \gets r$ \\
+                \textbf{break}
+            }
+        }
+        $H[t] \gets H[t][1 : \min\{ \hat{r}, W\}]$
+        \Comment{$H[t]$의 $\hat{r} + 1$번째 이후의 요소를 삭제}
     }
-    $\Sort (H[t])$ 
-
-    \Comment{재통합}
-
-    $V \gets \emptyset$
 
 \end{algorithm}
 
